@@ -1,0 +1,26 @@
+crypto isakmp policy 25
+ encr aes
+ hash sha256
+ authentication pre-share
+ group 5
+crypto isakmp key cdac address 71.0.0.1
+
+access-list 150 permit ip 192.168.1.0 0.0.0.255 10.0.0.0 0.0.0.255
+!
+crypto ipsec transform-set VPN1 esp-aes esp-sha-hmac
+ mode tunnel
+!
+crypto map MAP1 10 ipsec-isakmp
+ set peer 71.0.0.1
+ set transform-set VPN1
+ match address 150
+!
+interface Serial1/0
+ ip address 99.0.0.1 255.255.255.0
+ crypto map MAP1
+
+commands to verify 
+
+show crypto isakmp sa
+
+show crypto IPsec sa
