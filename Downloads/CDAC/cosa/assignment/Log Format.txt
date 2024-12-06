@@ -1,0 +1,55 @@
+LOG ANALYSIS:
+`````````````
+# cd /var/log/httpd/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" combined
+
+
+Like:
+`````
+127.0.0.1 - frank [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326 "http://www.example.com/start.html" "Mozilla/4.08 [en] (Win98; I ;Nav)"
+
+
+%h							: Host
+%l							: [Remote logname] - "hyphen"
+%u							: userid
+%t							: 
+							[day/month/year:hour:minute:second zone]
+							day = 2*digit
+							month = 3*letter
+							year = 4*digit
+							hour = 2*digit
+							minute = 2*digit
+							second = 2*digit
+\"%r\"					:	The request line from the client is given in double quotes
+%>s						:	HTTP Status Code
+%b							:	The size of the object returned to the client
+\"%{Referer}i\"	:	The "Referer" HTTP request header.
+\"%{User-agent}i\"	: User-Agent
+
+
+
+
+
+
+
