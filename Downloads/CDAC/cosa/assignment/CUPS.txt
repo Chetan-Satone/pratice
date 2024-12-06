@@ -1,0 +1,51 @@
+1. Using VNC for network communication
+2. Apache loadbalancer
+https://ahmermansoor.blogspot.com/2019/01/configure-nginx-http-load-balancer-centos-7.html
+--------
+Basic Service Security
+ Logging and NTP
+--
+Introduction to Performance Tuning
+ Maintenance and troubleshooting
+ The Threat Model and Protection Methods
+--
+Understanding e-mail delivery
+ Postfix Mail Server
+ Dovecot: an IMAP and POP server
+ squirrel Mail Web Client
+--
+Patches
+ System Management
+ X configuration server
+--
+Configuring the Apache web server
+ Apache security & Virtual Hosting
+ Configuring the Squid web proxy cache
+---------
+3. CUPS print service
+yum install cups
+vim /etc/cups/cupsd.conf
+Listen 192.168.1.1:631
+Listen	127.0.0.1:631
+Listen /var/run/cups/cups.sock
+DefaultEncryption	Never
+
+<Location />
+Order allow,deny
+Allow from 192.168.1.0/24
+Allow from 
+</Location>
+<Location /admin>
+Order allow,deny
+Allow from 192.168.1.0/24
+</Location
+:wq!
+
+systemctl start cupsd
+systemctl enable cupsd
+reboot
+
+firefox http://localhost:631
+
+Click on "Printer" -> "
+-------------
