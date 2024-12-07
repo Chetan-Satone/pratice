@@ -1,0 +1,68 @@
+# bash script.sh -f access.log -remoteip x.x.x.x
+
+IP: x.x.x.x
+___________
+TIMESTAMP: 25/Apr/2022:07:27:52
+HTTP METHOD: GET
+ENDPOINT:	/
+HTTP STATUS: 200
+USER-AGENT: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0 
++++++++++++++++++++++++++++++++++++++++
+
+# bash script.sh -f access.log -httpmethod get
+
+
+GET
+____
+RemoteIP:	x.x.x.x
+Endpoint: /
+User-Agent: Mozilla
+
+
+Network File Share:
+```````````````````
+Port 		: 2049
+Package	: nfs-utils
+Service	: nfs-server
+Config	: /etc/exports
+`````````````````````````````
+1) Install
+``````````
+# yum install nfs-utils -y
+
+2) Create data:
+```````````````
+# mkdir /data
+# chmod -R 755 /data
+# chown nfsnobody:nfsnobody /data -R
+
+# vim /etc/exports
+/data    192.168.1.254(rw,sync,no_root_squash)
+
+:wq
+
+NOTE:
+[no_root_squash: This option basically gives authority to the root user on the client to access files on the NFS server as root.]
+
+# systemctl restart nfs-server
+# systemctl enable nfs-server
+______________________________________
+Setup NFS-Client(s)
+```````````````````
+# yum install nfs-utils -y
+# mount -t nfs 192.168.1.254:/data /mnt
+
+-t  : type of filesystem
+192.168.1.254 NFS server IP
+
+# df -h
+
+Mounting permanently
+````````````````````
+# vim /etc/fstab
+192.168.1.254:/data /mnt nfs defaults 0 0
+
+# mount -a
+
+
+
