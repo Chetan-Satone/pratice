@@ -1,0 +1,80 @@
+NIS:
+=============================================
+# yum -y install ypserv rpcbind
+# ypdomainname sniper.com
+
+# echo 'NISDOMAIN=sniper.com' >> /etc/sysconfig/network
+
+# vim /var/yp/Makefile
+
+# MERGE_PASSWD=true|false
+# line 42: change
+MERGE_PASSWD=false
+
+# MERGE_GROUP=true|false
+# line 46: change
+MERGE_GROUP=false
+
+# line 127: add
+all: passwd shadow group hosts rpc services netid protocols
+
+# vim /var/yp/securenets
+# create new (specify networks you allow to access)
+255.0.0.0       127.0.0.0
+255.255.255.0   192.168.1.0
+# vim /etc/hosts
+# add own IP for NIS database
+ 192.168.1.254   server.sniper.com server
+ 
+# systemctl start rpcbind
+# systemctl start ypserv
+# systemctl start ypxfrd
+# systemctl start yppasswdd
+
+# /usr/lib64/yp/ypinit -m
+At this point, we have to construct a list of the hosts which will run NIS servers. dlp is in the list of NIS server hosts. Please continue to add the names for the other hosts, one per line. When you are done with the
+list, type a <control D>.
+next host to add: server.sniper.com
+next host to add:   # Ctrl + D key [To save]
+
+The current list of NIS servers looks like this:
+server.sniper.com
+Is this correct? [y/n: y] y   # y key
+We need a few minutes to build the databases...
+Building /var/yp/sniper.com/ypservers...
+Running /var/yp/Makefile...
+gmake[1]: Entering directory `/var/yp/sniper.com'
+Updating passwd.byname...
+Updating passwd.byuid...
+Updating shadow.byname...
+Updating group.byname...
+Updating group.bygid...
+Updating hosts.byname...
+Updating hosts.byaddr...
+Updating rpc.byname...
+Updating rpc.bynumber...
+Updating services.byname...
+Updating services.byservicename...
+Updating netid.byname...
+Updating protocols.bynumber...
+Updating protocols.byname...
+Updating mail.aliases...
+gmake[1]: Leaving directory `/var/yp/sniper.com'
+dlp has been set up as a NIS master server.
+Now you can run ypinit -s dlp on all slave server.
+
+
+# cd /var/yp
+# make
++++++++++++++++++++++++++++++++++
+Client:
+```````
+yum install ypbind rpcbind -y
+ypdomainname sniper.com
+authconfig --enablenis --nisdomain=sniper.com --nisserver=server.sniper.com --enablemkhomedir --update
+systemctl restart rpcbind ypbind
+# su - user
+$ yppasswd
+
+---
+now login as user which avail on slave
