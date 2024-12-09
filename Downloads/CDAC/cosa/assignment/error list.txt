@@ -1,0 +1,31 @@
+error list
+
+1.pc0 dns server missing
+
+2. pc1 default gateway missing
+
+3. pc2 bandwidth and duplex are not set in auto
+
+4. pc3 doesnot have ip address.
+
+5. Server pt dns server address missing
+
+6. Welcome to google was not written properly.
+
+7.Default gateway was wrong in web server pt google.com
+
+8. DNS server pt is missing the dns address of google.com
+
+9.Router 0 change the connection to fa1/0 .
+
+10. I delete the cable between router(04) and router(02) and it get conncected.
+
+11. Web server www.cdac.in dns server address missing.
+
+12. router0(3) fast ethernet 0/0 doest not set in auto bandwidth and duplex.
+
+13. pc4 and pc5 dns server missing.
+
+14. all the router does not have rip.
+
+15. pc 5 cannot have 3.3.3.10 address because the size is 6 so total connected should be upto 4.4.4.6/29
