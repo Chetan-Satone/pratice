@@ -1,0 +1,88 @@
+Samba:File Share
+`````````````````
+Ports: 139, 445
+Packages: samba samba-common samba-client
+Service: smb nmb
+Config: /etc/samba/smb.conf
+
+
+
+
+
+
+# yum install samba samba-common samba-client -y
+# mkdir /admin
+# chmod -R 755 /admin
+# chown -R nobody:nobody /admin
+
+
+
+
+
+
+
+
+
+# vim /etc/samba/smb.conf
+
+[global]
+workgroup = WORKGROUP
+
+[admin]
+path =  /admin
+browsable = yes
+writable = yes
+guest ok = yes
+read only = no
+:wq
+
+To check:
+``````````
+# testparm
+# systemctl start smb
+# systemctl enable smb
+
+# systemctl start nmb
+# systemctl enable nmb
+
+# systemctl status smb
+# systemctl status nmb
+
+Access:
+````````
+# smbclient '\\192.168.1.254\admin'
+Enter WORKGROUP\root's password:
+Anonymous login successful
+smb: \> ls
+
+
+
+
+
+____________
+Secure Samba Share Directory:
+`````````````````````````````
+# useradd smbuser
+# smbpasswd -a smbuser
+# groupadd smb_group
+# usermod -G smb_group smbuser
+# chmod -R 770 /admin
+# chown -R root:smb_group /admin
+
+
+Add these lines to define to secure samba share.
+
+[admin]
+path = /admin
+valid users = @smb_group
+guest ok = no
+writable = no
+browsable = yes
+
+# systemctl restart smb
+# systemctl restart nmb
+________________
+Client:
+`````````
+# yum install samba-client 
+# smbclient '\\192.168.1.254\admin' -U smbuser
