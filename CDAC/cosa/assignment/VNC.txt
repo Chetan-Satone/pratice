@@ -1,0 +1,37 @@
+vnc:
+````
+Access remote machine on GUI.
+
+PORT : 5902
+
+
+
+
+# yum search tiger
+# yum install tigervnc-server
+# useradd vnc
+# passwd vnc
+
+
+
+
+# cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:3.service
+
+# vim /etc/systemd/system/vncserver@:3.service
+
+
+su - vnc
+$ vncserver
+$ cat .vnc/passwd
+
+# systemctl start vncserver@:3.service
+# systemctl enable vncserver@:3.service
+________________________
+On Client:
+``````````
+
+# yum search vnc
+
+# yum install vinagre.x86_64
+
+# vinagre
